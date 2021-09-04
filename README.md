@@ -12,6 +12,7 @@ Steps:
 2) Register the First User from React web application
 3) Open another browser and register another User
 4) Press the Like button on the profile of the other user
-5) notice the Red Badge with the bell icon in real time when a like is recevied on the top right of the page.
+5) notice the Red Badge with the bell icon in real time when a like is recevied
+   on the top right of the page.
 6) Click the bell icon to view notifications
 ```
