@@ -13,6 +13,7 @@ import { withTranslation } from "react-i18next"
 import { getCurrentUserData } from "actions/user"
 import { SocketClient } from "config/socket"
 import { getUserNotifications } from "actions/notification"
+import toastr from "toastr"
 
 const NotificationDropdown = props => {
   // Declare a new state variable, which we'll call "menu"
@@ -35,15 +36,23 @@ const NotificationDropdown = props => {
   useEffect(() => {
 
     if (SocketClient.socket) {
+      console.log(SocketClient.socket)
       SocketClient.socket.on(`my_notification_${currenUser.user.id}`, (data) => {
         console.log("RECEIVED NEW NOTIFICATION");
         console.log(data);
 
         setNewArrived(true)
         setNotifications([data, ...notifications])
+
       });
     }
   }, [currenUser, notifications, SocketClient.socket])
+
+  useEffect(() => {
+    if (newArrived)
+      toastr.success("Someone Liked your Profile", "Profile Like")
+
+  }, [newArrived])
   return (
     <React.Fragment>
       <Dropdown
@@ -56,6 +65,7 @@ const NotificationDropdown = props => {
           className="btn header-item noti-icon "
           tag="button"
           id="page-header-notifications-dropdown"
+          onClick={() => setNewArrived(false)}
         >
           <i className="bx bx-bell bx-tada" />
           {newArrived ? <span className="badge bg-danger rounded-pill">New</span> : null}

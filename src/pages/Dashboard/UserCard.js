@@ -1,4 +1,3 @@
-
 import React, { useEffect, useMemo, useState } from "react"
 import { Link } from "react-router-dom"
 import {
@@ -6,6 +5,7 @@ import {
     CardBody,
     CardFooter,
     Col,
+    Spinner,
     UncontrolledTooltip,
 } from "reactstrap"
 import images from "assets/images"
@@ -17,18 +17,19 @@ const UserCard = ({ user }) => {
 
     const currentUser = getCurrentUserData()
     const [alreadyLiked, setAlreadyLiked] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const onLikeClick = () => {
 
-        console.log('clicked')
+        setLoading(true)
         likeUserProfile(user.id)
             .then(response => {
-                console.log('then' , alreadyLiked)
                 setAlreadyLiked(true)
             })
             .catch(err => {
 
             })
+            .finally(() => setLoading(false))
     }
 
     useEffect(() => {
@@ -38,7 +39,7 @@ const UserCard = ({ user }) => {
             setAlreadyLiked(true)
         else
             setAlreadyLiked(false)
-    }, [user, currentUser])
+    }, [])
 
 
 
@@ -89,9 +90,11 @@ const UserCard = ({ user }) => {
                         <div className="contact-links d-flex font-size-20">
                             <div className="flex-fill">
                                 <Link to="#" id={"message"}>
+
                                     {
-                                        alreadyLiked ? "Liked" :
-                                            <i className="bx bx-like" onClick={onLikeClick} />
+                                        loading ? <Spinner /> :
+                                            alreadyLiked ? "Liked" :
+                                                <i className="bx bx-like" onClick={onLikeClick} />
                                     }
                                     <UncontrolledTooltip
                                         placement="top"

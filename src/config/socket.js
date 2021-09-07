@@ -10,16 +10,16 @@ export class SocketClient {
 
         if (currentUser) {
 
-            const io = require("socket.io-client");
-            const API_URL = "http://localhost:1337/";
-            const token = currentUser.token.replace("Bearer ", "");
-            console.log(token)
+            // const io = require("socket.io-client");
+            const API_URL = "http://localhost:1337";
 
-            var socket = io.connect(API_URL);
-            socket.on("hello", (payload) => {
+            this.socket = io.connect(API_URL);
+            this.socket.on("hello", (payload) => {
                 console.log(payload);
             });
+            // socket.on(`my_notification_${currentUser.user.id}`, (data) => {
+            //     console.log("notification recieved")
+            // })
         }
-
     }
 }
